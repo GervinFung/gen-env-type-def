@@ -33,8 +33,13 @@
         "url": "https://github.com/GervinFung/gen-env-type-def"
     },
     "devDependencies": {
+        "@poolofdeath20/eslint-config": "^0.1.0",
         "@types/node": "^20.2.5",
+        "@typescript-eslint/eslint-plugin": "^5.59.8",
+        "@typescript-eslint/parser": "^5.59.8",
+        "eslint": "^8.41.0",
         "node-package-helper": "github:GervinFung/node-package-helper",
+        "prettier": "^2.8.8",
         "ts-add-js-extension": "^1.5.0",
         "typescript": "^5.0.4",
         "vitest": "^0.31.2"
