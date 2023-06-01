@@ -1,8 +1,7 @@
 import Parser from './parser';
-import Generator from './generator';
+import Generator, { type EnvType } from './generator';
 import Writer from './writer';
-
-type EnvType = 'process.env' | 'import.meta.env';
+import IO from './io';
 
 type Directory = Readonly<{
     inDir: string;
@@ -11,17 +10,28 @@ type Directory = Readonly<{
 }>;
 
 const genEnvTypeDef = (param: ReadonlyArray<Directory>) => {
+    const io = IO.of();
+
     param.forEach((prop) => {
-        const parser = Parser.of(prop.inDir);
-        const generator = Generator.of(parser.parseContents());
-        const writer = Writer.of(prop.outDir ?? prop.inDir);
+        const parser = Parser.of({
+            io,
+            envDir: prop.inDir,
+        });
+        const generator = Generator.of({
+            io,
+            contents: parser.parseContents(),
+        });
+        const writer = Writer.of({
+            io,
+            outDir: prop.outDir ?? prop.inDir,
+        });
         switch (prop.envType) {
             case 'process.env': {
-                writer.write(generator.processEnv());
+                writer.writeProcessEnv(generator.processEnv());
                 break;
             }
             case 'import.meta.env': {
-                writer.write(generator.importMetaEnv());
+                writer.writeImportMetaEnv(generator.importMetaEnv());
                 break;
             }
         }
