@@ -3,12 +3,18 @@ import { afterAll, describe, expect, it } from 'vitest';
 import Parser from '../src/parser';
 import Generator from '../src/generator';
 import Writer from '../src/writer';
+import IO from '../src/io';
 
 describe('should parse all .env* files and generate type definitions correctly', () => {
-    const outDir = `${__dirname}/typing`;
+    const outDir = `./typing`;
 
     it('should parse, ignore comments, and generate type definitions', () => {
-        const parser = Parser.of(`${__dirname}/env`);
+        const io = IO.of();
+
+        const parser = Parser.of({
+            io,
+            envDir: `${__dirname}/env`,
+        });
         const contents = parser.parseContents();
         expect(contents).toStrictEqual({
             NODE_ENV: new Set([
@@ -28,11 +34,15 @@ describe('should parse all .env* files and generate type definitions correctly',
             TIME_OUT: new Set(['0', '1_000_000', '2_000_000']),
         });
 
-        const generator = Generator.of(contents);
+        const generator = Generator.of({
+            io,
+            contents,
+        });
         const processEnv = generator.processEnv();
         const importMetaEnv = generator.importMetaEnv();
         expect(processEnv).toMatchInlineSnapshot(`
-          "declare global {
+          "export {}
+          declare global {
           	namespace NodeJS {
           		interface ProcessEnv {
           			readonly NODE_ENV: \\"development\\" | \\"production\\" | \\"staging\\" | \\"testing\\"
@@ -57,12 +67,15 @@ describe('should parse all .env* files and generate type definitions correctly',
           }"
         `);
 
-        const writer = Writer.of(outDir);
+        const writer = Writer.of({
+            io,
+            outDir,
+        });
 
-        expect(writer.write(processEnv)).toMatchFileSnapshot(
+        expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
             'snapshot/process-env'
         );
-        expect(writer.write(importMetaEnv)).toMatchFileSnapshot(
+        expect(writer.writeImportMetaEnv(importMetaEnv)).toMatchFileSnapshot(
             'snapshot/import-meta-env'
         );
     });

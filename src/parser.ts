@@ -1,24 +1,32 @@
 import fs from 'fs';
 import { guard } from './type';
+import type IO from './io';
+
+type ParserField = Readonly<{
+    io: IO;
+    envDir: string;
+    envPaths: ReadonlyArray<string>;
+}>;
 
 export default class Parser {
     private static readonly KEY_VALUE_PATTERN =
         /^\s*([\w.-]+)\s*=\s*("[^"]*"|'[^']*'|[^#]*)?(\s*|\s*#.*)?$/;
 
-    private readonly envPaths: ReadonlyArray<string>;
+    private constructor(private readonly field: ParserField) {}
 
-    private constructor(private readonly envDir: string) {
-        this.envPaths = fs
-            .readdirSync(envDir)
+    static readonly of = (field: Omit<ParserField, 'envPaths'>) => {
+        field.io.writeFindingAllEnvFiles(field.envDir);
+        const envPaths = fs
+            .readdirSync(field.envDir)
             .filter((path) => path.startsWith('.env'))
             .filter((path) => !path.includes('example'));
-    }
-
-    static readonly of = (envDir: string) => new this(envDir);
+        field.io.writeFoundAllEnvFiles(envPaths);
+        return new this({ ...field, envPaths });
+    };
 
     private readonly envContents = () =>
-        this.envPaths.map((envPath) =>
-            fs.readFileSync(`${this.envDir}/${envPath}`, {
+        this.field.envPaths.map((envPath) =>
+            fs.readFileSync(`${this.field.envDir}/${envPath}`, {
                 encoding: 'utf-8',
             })
         );
