@@ -1,0 +1,48 @@
+{
+    "name": "gen-env-type-def",
+    "description": "Generate type definitions for process.env or import.meta.env",
+    "version": "0.0.0",
+    "license": "MIT",
+    "main": "build/cjs/index.js",
+    "module": "build/mjs/index.js",
+    "types": "build/cjs/index.d.ts",
+    "react-native": "build/mjs/index.js",
+    "exports": {
+        "./package.json": "package.json",
+        ".": {
+            "require": "build/cjs/index.js",
+            "import": "build/mjs/index.js",
+            "default": "build/mjs/index.js"
+        }
+    },
+    "files": [
+        "build"
+    ],
+    "scripts": {
+        "lint": "eslint --ignore-path .gitignore src/ test/ -f='stylish' --color",
+        "format": "prettier --ignore-path .gitignore --write src/ test/",
+        "format-check": "prettier --ignore-path .gitignore --check src/ test/",
+        "build-cjs": "tsc -p tsconfig.cjs.json",
+        "build-mjs": "tsc -p tsconfig.mjs.json && ts-add-js-extension --dir=build",
+        "build": "rm -rf build && pnpm build-cjs && pnpm build-mjs && node-package-helper",
+        "test": "vitest"
+    },
+    "bugs": "https://github.com/GervinFung/gen-env-type-def/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GervinFung/gen-env-type-def"
+    },
+    "devDependencies": {
+        "@types/node": "^20.2.5",
+        "node-package-helper": "github:GervinFung/node-package-helper",
+        "ts-add-js-extension": "^1.5.0",
+        "typescript": "^5.0.4",
+        "vitest": "^0.31.2"
+    },
+    "keywords": [
+        "process",
+        "meta",
+        "env",
+        "dts"
+    ]
+}

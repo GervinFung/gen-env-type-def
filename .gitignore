@@ -1,0 +1,11 @@
+node_modules
+# production
+build
+
+# generated
+src/package.ts
+
+# misc
+test/output
+yarn-debug.log*
+yarn-error.log*
