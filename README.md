@@ -1,4 +1,4 @@
-# **gen-env-type-def**
+# gen-env-type-def
 
 Initially, I found myself type guarding environment variables either as `process.env.SOMETHING` or `import.meta.env.SOMETHING`, treating them as generic strings. However, I realized that I could go beyond just basic type safety and ensure the correct import of environment variables in production. Instead of writing individual type guards, I decided to create a function that generates specific types for each environment variable, using discriminated unions for enhanced type safety. This approach not only provides compile-time type checking but also guarantees runtime safety.
 
@@ -21,7 +21,7 @@ With `gen-env-type-def`, you have the flexibility to provide different input con
 
 By leveraging this tool, you can effortlessly generate precise and thorough type definitions for your environment variables. This enhances type safety and enables smooth integration with your development workflow, ensuring a seamless and reliable environment for your project.
 
-# Usage/Feature
+# Usage
 
 #### API
 
