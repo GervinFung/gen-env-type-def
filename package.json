@@ -1,7 +1,7 @@
 {
     "name": "gen-env-type-def",
     "description": "Generate type definitions for process.env or import.meta.env",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "license": "MIT",
     "main": "./build/cjs/index.js",
     "module": "./build/mjs/index.js",
