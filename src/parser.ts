@@ -73,10 +73,10 @@ export default class Parser {
             .reduce(
                 (result, env) => ({
                     ...result,
-                    [env.key]: new Set(
-                        Array.from(result[env.key] ?? []).concat(env.value)
+                    [env.key]: Array.from(result[env.key] ?? []).concat(
+                        env.value
                     ),
                 }),
-                {} as Readonly<Record<string, Set<string>>>
+                {} as Readonly<Record<string, ReadonlyArray<string>>>
             );
 }

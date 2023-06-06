@@ -22,7 +22,8 @@ export default class Generator {
         }>
     ) => {
         const longestValue = Object.values(this.field.contents).reduce(
-            (longest, value) => (value.size > longest ? value.size : longest),
+            (longest, value) =>
+                value.length > longest ? value.length : longest,
             0
         );
 
@@ -30,8 +31,8 @@ export default class Generator {
             (typeDefinitions, [key, values]) =>
                 typeDefinitions.concat(
                     `${'\t'.repeat(param.tagsCount)}readonly ${key}${
-                        values.size === longestValue ? '' : '?'
-                    }: ${Array.from(values)
+                        values.length === longestValue ? '' : '?'
+                    }: ${Array.from(new Set(values))
                         .map((value) => `"${value}"`)
                         .join(' | ')}`
                 ),
