@@ -19,11 +19,11 @@
         "build"
     ],
     "scripts": {
-        "lint": "eslint --ignore-path .gitignore src/ test/ -f='stylish' --color",
-        "format": "prettier --ignore-path .gitignore --write src/ test/",
-        "format-check": "prettier --ignore-path .gitignore --check src/ test/",
+        "lint": "pnpm vite-node script/lint.ts",
+        "format": "prettier --ignore-path .gitignore --write src test script",
+        "format-check": "prettier --ignore-path .gitignore --check src test script",
         "build-cjs": "tsc -p tsconfig.cjs.json",
-        "build-mjs": "tsc -p tsconfig.mjs.json && ts-add-js-extension --dir=build",
+        "build-mjs": "tsc -p tsconfig.mjs.json && ts-add-js-extension --dir=build/mjs",
         "build": "rm -rf build && pnpm build-cjs && pnpm build-mjs && node-package-helper",
         "test": "vitest"
     },
@@ -40,7 +40,7 @@
         "eslint": "^8.41.0",
         "node-package-helper": "github:GervinFung/node-package-helper",
         "prettier": "^2.8.8",
-        "ts-add-js-extension": "^1.5.2",
+        "ts-add-js-extension": "^1.5.3",
         "typescript": "^5.0.4",
         "vitest": "^0.31.2"
     },
