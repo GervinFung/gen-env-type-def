@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import { guard } from './type';
 import type IO from './io';
 
@@ -26,7 +27,7 @@ export default class Parser {
 
     private readonly envContents = () =>
         this.field.envPaths.map((envPath) =>
-            fs.readFileSync(`${this.field.envDir}/${envPath}`, {
+            fs.readFileSync(path.join(this.field.envDir, envPath), {
                 encoding: 'utf-8',
             })
         );

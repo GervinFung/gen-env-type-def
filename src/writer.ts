@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import type IO from './io';
 import type { EnvType } from './generator';
 
@@ -27,7 +28,7 @@ export default class Writer {
         }>
     ) => {
         const outFile = 'env.d.ts';
-        const file = `${this.field.outDir}/${outFile}`;
+        const file = path.join(this.field.outDir, outFile);
         fs.writeFileSync(file, param.content);
         this.field.io.writeWrittenTypeDefinition({
             outFile,
