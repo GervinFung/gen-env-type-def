@@ -40,7 +40,7 @@
         "eslint": "^8.41.0",
         "node-package-helper": "github:GervinFung/node-package-helper",
         "prettier": "^2.8.8",
-        "ts-add-js-extension": "^1.5.0",
+        "ts-add-js-extension": "^1.5.2",
         "typescript": "^5.0.4",
         "vitest": "^0.31.2"
     },
