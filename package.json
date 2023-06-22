@@ -42,6 +42,7 @@
         "prettier": "^2.8.8",
         "ts-add-js-extension": "^1.5.3",
         "typescript": "^5.0.4",
+        "vite-node": "^0.32.2",
         "vitest": "^0.31.2"
     },
     "keywords": [
