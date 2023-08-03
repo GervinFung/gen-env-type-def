@@ -1,9 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 import { afterAll, describe, expect, it } from 'vitest';
-import Parser from '../src/parser';
-import Generator from '../src/generator';
-import Writer from '../src/writer';
-import IO from '../src/io';
+import Parser from '../../src/parser';
+import Generator from '../../src/generator';
+import Writer from '../../src/writer';
+import IO from '../../src/io';
 
 describe('should parse all .env* files and generate type definitions correctly', () => {
     const outDir = `./typing`;
@@ -13,7 +14,11 @@ describe('should parse all .env* files and generate type definitions correctly',
 
         const parser = Parser.of({
             io,
-            envDir: `${__dirname}/env`,
+            envDir: path.join(
+                path.resolve(__dirname, '..'),
+                'env',
+                'non-empty'
+            ),
         });
         const contents = parser.parseContents();
         expect(contents).toStrictEqual({
@@ -71,10 +76,10 @@ describe('should parse all .env* files and generate type definitions correctly',
         });
 
         expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
-            'snapshot/process-env'
+            'snapshot/dts-output/process-env'
         );
         expect(writer.writeImportMetaEnv(importMetaEnv)).toMatchFileSnapshot(
-            'snapshot/import-meta-env'
+            'snapshot/dts-output/import-meta-env'
         );
     });
 
