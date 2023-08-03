@@ -21,6 +21,15 @@ export default class Parser {
             .readdirSync(field.envDir)
             .filter((path) => path.startsWith('.env'))
             .filter((path) => !path.includes('example'));
+
+        if (!envPaths.length) {
+            throw new Error(
+                `There is no .env* file(s) to be found in ${path.resolve(
+                    field.envDir
+                )}`
+            );
+        }
+
         field.io.writeFoundAllEnvFiles(envPaths);
         return new this({ ...field, envPaths });
     };

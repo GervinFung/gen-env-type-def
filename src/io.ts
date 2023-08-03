@@ -17,10 +17,10 @@ export default class IO {
     };
 
     readonly writeGeneratedTypeDefinition = (envType: EnvType) =>
-        this.log(`Generated type definition for ${envType}`);
+        this.log(`Generated type definition for "${envType}"`);
 
     readonly writeFindingAllEnvFiles = (envDir: string) =>
-        this.log(`Finding... all .env* files in ${envDir}`);
+        this.log(`Finding... all .env* files in "${envDir}"`);
 
     readonly writeFoundAllEnvFiles = (envPaths: ReadonlyArray<string>) =>
         this.log(`Found ${envPaths.map((path) => `"${path}"`).join(', ')}`);
@@ -33,6 +33,6 @@ export default class IO {
         }>
     ) =>
         this.log(
-            `Written type definition in ${param.outFile} for ${param.envType} at ${param.outDir}`
+            `Written type definition in "${param.outFile}" for "${param.envType}" at "${param.outDir}"`
         );
 }

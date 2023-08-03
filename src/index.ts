@@ -9,10 +9,16 @@ type Directory = Readonly<{
     outDir?: string;
 }>;
 
-const genEnvTypeDef = (param: ReadonlyArray<Directory>) => {
+const genEnvTypeDef = (directories: ReadonlyArray<Directory>) => {
     const io = IO.of();
 
-    param.forEach((prop) => {
+    if (!directories.length) {
+        throw new Error(
+            'Directories cannot be empty; otherwise, there will be nothing to operate on'
+        );
+    }
+
+    directories.forEach((prop) => {
         const parser = Parser.of({
             io,
             envDir: prop.inDir,
