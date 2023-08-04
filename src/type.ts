@@ -1,15 +1,15 @@
 const guard = <T, Err extends Error>({
-    value,
-    error,
+	value,
+	error,
 }: Readonly<{
-    value: T;
-    error: () => Err;
+	value: T;
+	error: () => Err;
 }>) => {
-    const t = value;
-    if (t !== undefined && t != null) {
-        return t;
-    }
-    throw error();
+	const t = value;
+	if (t !== undefined && t != null) {
+		return t;
+	}
+	throw error();
 };
 
 export { guard };

@@ -7,41 +7,41 @@ import Writer from '../../src/writer';
 import IO from '../../src/io';
 
 describe('should parse all .env* files and generate type definitions correctly', () => {
-    const outDir = `./typing`;
+	const outDir = `./typing`;
 
-    it('should parse, ignore comments, and generate type definitions', () => {
-        const io = IO.of();
+	it('should parse, ignore comments, and generate type definitions', () => {
+		const io = IO.of();
 
-        const parser = Parser.of({
-            io,
-            envDir: path.join(
-                path.resolve(__dirname, '..'),
-                'env',
-                'non-empty'
-            ),
-        });
-        const contents = parser.parseContents();
-        expect(contents).toStrictEqual({
-            NODE_ENV: ['development', 'production', 'staging', 'testing'],
-            SAME: ['hi', 'hi', 'hi', 'hi'],
-            REQUIRED_IN_DEV_ONLY: ['true'],
-            REQUIRED_IN_TEST_ONLY: ['false'],
-            ORIGIN: [
-                'http://localhost:3000',
-                'https://arkham.io',
-                'https://staging.arkham.io',
-                'http://localhost:8000',
-            ],
-            TIME_OUT: ['0', '2_000_000', '2_000_000', '1_000_000'],
-        });
+		const parser = Parser.of({
+			io,
+			envDir: path.join(
+				path.resolve(__dirname, '..'),
+				'env',
+				'non-empty'
+			),
+		});
+		const contents = parser.parseContents();
+		expect(contents).toStrictEqual({
+			NODE_ENV: ['development', 'production', 'staging', 'testing'],
+			SAME: ['hi', 'hi', 'hi', 'hi'],
+			REQUIRED_IN_DEV_ONLY: ['true'],
+			REQUIRED_IN_TEST_ONLY: ['false'],
+			ORIGIN: [
+				'http://localhost:3000',
+				'https://arkham.io',
+				'https://staging.arkham.io',
+				'http://localhost:8000',
+			],
+			TIME_OUT: ['0', '2_000_000', '2_000_000', '1_000_000'],
+		});
 
-        const generator = Generator.of({
-            io,
-            contents,
-        });
-        const processEnv = generator.processEnv();
-        const importMetaEnv = generator.importMetaEnv();
-        expect(processEnv).toMatchInlineSnapshot(`
+		const generator = Generator.of({
+			io,
+			contents,
+		});
+		const processEnv = generator.processEnv();
+		const importMetaEnv = generator.importMetaEnv();
+		expect(processEnv).toMatchInlineSnapshot(`
           "export {}
           declare global {
           	namespace NodeJS {
@@ -56,7 +56,7 @@ describe('should parse all .env* files and generate type definitions correctly',
           	}
           }"
         `);
-        expect(importMetaEnv).toMatchInlineSnapshot(`
+		expect(importMetaEnv).toMatchInlineSnapshot(`
           "interface ImportMetaEnv {
           	readonly NODE_ENV: \\"development\\" | \\"production\\" | \\"staging\\" | \\"testing\\"
           	readonly REQUIRED_IN_DEV_ONLY?: \\"true\\"
@@ -70,20 +70,20 @@ describe('should parse all .env* files and generate type definitions correctly',
           }"
         `);
 
-        const writer = Writer.of({
-            io,
-            outDir,
-        });
+		const writer = Writer.of({
+			io,
+			outDir,
+		});
 
-        expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
-            'snapshot/dts-output/process-env'
-        );
-        expect(writer.writeImportMetaEnv(importMetaEnv)).toMatchFileSnapshot(
-            'snapshot/dts-output/import-meta-env'
-        );
-    });
+		expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
+			'snapshot/dts-output/process-env'
+		);
+		expect(writer.writeImportMetaEnv(importMetaEnv)).toMatchFileSnapshot(
+			'snapshot/dts-output/import-meta-env'
+		);
+	});
 
-    afterAll(() => {
-        fs.rmSync(outDir, { recursive: true, force: true });
-    });
+	afterAll(() => {
+		fs.rmSync(outDir, { recursive: true, force: true });
+	});
 });

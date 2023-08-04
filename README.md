@@ -85,13 +85,13 @@ in root dir, it's
 
 ```ts
 interface ImportMetaEnv {
-    readonly NODE_ENV: 'development' | 'production' | 'staging' | 'testing';
-    readonly REQUIRED_IN_DEV_ONLY?: 'true';
-    readonly ORIGIN: 'http://localhost:3000' | 'https://arkham.io';
-    readonly TIME_OUT?: '0' | '2_000_000';
+	readonly NODE_ENV: 'development' | 'production' | 'staging' | 'testing';
+	readonly REQUIRED_IN_DEV_ONLY?: 'true';
+	readonly ORIGIN: 'http://localhost:3000' | 'https://arkham.io';
+	readonly TIME_OUT?: '0' | '2_000_000';
 }
 interface ImportMeta {
-    readonly env: ImportMetaEnv;
+	readonly env: ImportMetaEnv;
 }
 ```
 
@@ -103,12 +103,12 @@ backend, it's
 
 ```ts
 declare global {
-    namespace NodeJS {
-        interface ProcessEnv {
-            readonly DIR: 'backend-dev' | 'backend-pro';
-            readonly REPOSITORY_PROVIDER: 'github' | 'gitlab';
-        }
-    }
+	namespace NodeJS {
+		interface ProcessEnv {
+			readonly DIR: 'backend-dev' | 'backend-pro';
+			readonly REPOSITORY_PROVIDER: 'github' | 'gitlab';
+		}
+	}
 }
 ```
 
