@@ -6,77 +6,77 @@ type EnvType = 'process.env' | 'import.meta.env';
 type ParsedContents = ReturnType<Parser['parseContents']>;
 
 type GeneratorField = Readonly<{
-    io: IO;
-    contents: ParsedContents;
+	io: IO;
+	contents: ParsedContents;
 }>;
 
 export default class Generator {
-    private constructor(private readonly field: GeneratorField) {}
+	private constructor(private readonly field: GeneratorField) {}
 
-    static readonly of = (field: GeneratorField) => new this(field);
+	static readonly of = (field: GeneratorField) => new this(field);
 
-    private readonly generateTypeDefinitions = (
-        param: Readonly<{
-            envType: EnvType;
-            tagsCount: number;
-        }>
-    ) => {
-        const longestValue = Object.values(this.field.contents).reduce(
-            (longest, value) =>
-                value.length > longest ? value.length : longest,
-            0
-        );
+	private readonly generateTypeDefinitions = (
+		param: Readonly<{
+			envType: EnvType;
+			tagsCount: number;
+		}>
+	) => {
+		const longestValue = Object.values(this.field.contents).reduce(
+			(longest, value) =>
+				value.length > longest ? value.length : longest,
+			0
+		);
 
-        const result = Object.entries(this.field.contents).reduce(
-            (typeDefinitions, [key, values]) =>
-                typeDefinitions.concat(
-                    `${'\t'.repeat(param.tagsCount)}readonly ${key}${
-                        values.length === longestValue ? '' : '?'
-                    }: ${Array.from(new Set(values))
-                        .map((value) => `"${value}"`)
-                        .join(' | ')}`
-                ),
-            [] as ReadonlyArray<string>
-        );
+		const result = Object.entries(this.field.contents).reduce(
+			(typeDefinitions, [key, values]) =>
+				typeDefinitions.concat(
+					`${'\t'.repeat(param.tagsCount)}readonly ${key}${
+						values.length === longestValue ? '' : '?'
+					}: ${Array.from(new Set(values))
+						.map((value) => `"${value}"`)
+						.join(' | ')}`
+				),
+			[] as ReadonlyArray<string>
+		);
 
-        this.field.io.writeGeneratedTypeDefinition(param.envType);
+		this.field.io.writeGeneratedTypeDefinition(param.envType);
 
-        return result;
-    };
+		return result;
+	};
 
-    readonly processEnv = () => {
-        const typeDefinitions = this.generateTypeDefinitions({
-            tagsCount: 3,
-            envType: 'process.env',
-        });
+	readonly processEnv = () => {
+		const typeDefinitions = this.generateTypeDefinitions({
+			tagsCount: 3,
+			envType: 'process.env',
+		});
 
-        return [
-            'export {}',
-            'declare global {',
-            '\tnamespace NodeJS {',
-            '\t\tinterface ProcessEnv {',
-            `${typeDefinitions.join('\n')}`,
-            '\t\t}',
-            '\t}',
-            '}',
-        ].join('\n');
-    };
+		return [
+			'export {}',
+			'declare global {',
+			'\tnamespace NodeJS {',
+			'\t\tinterface ProcessEnv {',
+			`${typeDefinitions.join('\n')}`,
+			'\t\t}',
+			'\t}',
+			'}',
+		].join('\n');
+	};
 
-    readonly importMetaEnv = () => {
-        const typeDefinitions = this.generateTypeDefinitions({
-            tagsCount: 1,
-            envType: 'import.meta.env',
-        });
+	readonly importMetaEnv = () => {
+		const typeDefinitions = this.generateTypeDefinitions({
+			tagsCount: 1,
+			envType: 'import.meta.env',
+		});
 
-        return [
-            'interface ImportMetaEnv {',
-            `${typeDefinitions.join('\n')}`,
-            '}',
-            'interface ImportMeta {',
-            '\treadonly env: ImportMetaEnv',
-            '}',
-        ].join('\n');
-    };
+		return [
+			'interface ImportMetaEnv {',
+			`${typeDefinitions.join('\n')}`,
+			'}',
+			'interface ImportMeta {',
+			'\treadonly env: ImportMetaEnv',
+			'}',
+		].join('\n');
+	};
 }
 
 export type { EnvType };
