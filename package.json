@@ -39,7 +39,7 @@
         "@typescript-eslint/parser": "^5.59.8",
         "eslint": "^8.41.0",
         "node-package-helper": "github:GervinFung/node-package-helper",
-        "prettier": "^2.8.8",
+        "prettier": "^3.0.1",
         "shx": "^0.3.4",
         "ts-add-js-extension": "^1.5.3",
         "typescript": "^5.0.4",
