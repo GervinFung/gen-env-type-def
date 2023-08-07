@@ -13,7 +13,9 @@ export default class Writer {
 		this.ensureOutDirExists();
 	}
 
-	static readonly of = (field: WriterField) => new this(field);
+	static readonly of = (field: WriterField) => {
+		return new this(field);
+	};
 
 	private readonly ensureOutDirExists = () => {
 		if (!fs.existsSync(this.field.outDir)) {
@@ -38,15 +40,17 @@ export default class Writer {
 		return fs.readFileSync(file, { encoding: 'utf-8' });
 	};
 
-	readonly writeProcessEnv = (content: string) =>
-		this.write({
+	readonly writeProcessEnv = (content: string) => {
+		return this.write({
 			content,
 			envType: 'process.env',
 		});
+	};
 
-	readonly writeImportMetaEnv = (content: string) =>
-		this.write({
+	readonly writeImportMetaEnv = (content: string) => {
+		return this.write({
 			content,
 			envType: 'import.meta.env',
 		});
+	};
 }
