@@ -19,8 +19,12 @@ export default class Parser {
 		field.io.writeFindingAllEnvFiles(field.envDir);
 		const envPaths = fs
 			.readdirSync(field.envDir)
-			.filter((path) => path.startsWith('.env'))
-			.filter((path) => !path.includes('example'));
+			.filter((path) => {
+				return path.startsWith('.env');
+			})
+			.filter((path) => {
+				return !path.includes('example');
+			});
 
 		if (!envPaths.length) {
 			throw new Error(
@@ -34,15 +38,16 @@ export default class Parser {
 		return new this({ ...field, envPaths });
 	};
 
-	private readonly envContents = () =>
-		this.field.envPaths.map((envPath) =>
-			fs.readFileSync(path.join(this.field.envDir, envPath), {
+	private readonly envContents = () => {
+		return this.field.envPaths.map((envPath) => {
+			return fs.readFileSync(path.join(this.field.envDir, envPath), {
 				encoding: 'utf-8',
-			})
-		);
+			});
+		});
+	};
 
-	private readonly parseContent = (content: string) =>
-		content.split('\n').flatMap((line) => {
+	private readonly parseContent = (content: string) => {
+		return content.split('\n').flatMap((line) => {
 			const env = Parser.KEY_VALUE_PATTERN.exec(line);
 			if (env?.length !== 4) {
 				return [];
@@ -50,18 +55,20 @@ export default class Parser {
 
 			const key = guard({
 				value: env.at(1),
-				error: () =>
-					new Error(
+				error: () => {
+					return new Error(
 						'There should be a key if there are four elements'
-					),
+					);
+				},
 			});
 
 			const value = guard({
 				value: env.at(2),
-				error: () =>
-					new Error(
+				error: () => {
+					return new Error(
 						'There should be a value if there are four elements'
-					),
+					);
+				},
 			});
 
 			const isDoubleQuoted = value.startsWith('"') && value.endsWith('"');
@@ -76,17 +83,21 @@ export default class Parser {
 				},
 			];
 		});
+	};
 
-	readonly parseContents = () =>
-		this.envContents()
+	readonly parseContents = () => {
+		return this.envContents()
 			.flatMap(this.parseContent)
 			.reduce(
-				(result, env) => ({
-					...result,
-					[env.key]: Array.from(result[env.key] ?? []).concat(
-						env.value
-					),
-				}),
+				(result, env) => {
+					return {
+						...result,
+						[env.key]: Array.from(result[env.key] ?? []).concat(
+							env.value
+						),
+					};
+				},
 				{} as Readonly<Record<string, ReadonlyArray<string>>>
 			);
+	};
 }

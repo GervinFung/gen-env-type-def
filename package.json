@@ -19,8 +19,8 @@
 		"build"
 	],
 	"scripts": {
-		"lint": "pnpm vite-node script/lint.ts",
-		"format": "pnpm prettier --ignore-path .gitignore **/*.{cjs,ts,json,md}",
+		"lint": "eslint . --ignore-path .gitignore --ext .ts --color",
+		"format": "prettier --ignore-path .gitignore **/*.{js,cjs,ts,json,md}",
 		"format-write": "pnpm format --write",
 		"format-check": "pnpm format --check",
 		"build-cjs": "tsc -p tsconfig.cjs.json",
@@ -34,7 +34,7 @@
 		"url": "https://github.com/GervinFung/gen-env-type-def"
 	},
 	"devDependencies": {
-		"@poolofdeath20/eslint-config": "^0.1.0",
+		"@poolofdeath20/eslint-config": "^0.2.1",
 		"@types/node": "^20.2.5",
 		"@typescript-eslint/eslint-plugin": "^5.59.8",
 		"@typescript-eslint/parser": "^5.59.8",
@@ -44,13 +44,13 @@
 		"shx": "^0.3.4",
 		"ts-add-js-extension": "^1.5.3",
 		"typescript": "^5.0.4",
-		"vite-node": "^0.32.2",
 		"vitest": "^0.31.2"
 	},
 	"keywords": [
 		"process",
 		"meta",
 		"env",
-		"dts"
+		"dts",
+		"environment variable"
 	]
 }

@@ -13,7 +13,9 @@ type GeneratorField = Readonly<{
 export default class Generator {
 	private constructor(private readonly field: GeneratorField) {}
 
-	static readonly of = (field: GeneratorField) => new this(field);
+	static readonly of = (field: GeneratorField) => {
+		return new this(field);
+	};
 
 	private readonly generateTypeDefinitions = (
 		param: Readonly<{
@@ -22,20 +24,24 @@ export default class Generator {
 		}>
 	) => {
 		const longestValue = Object.values(this.field.contents).reduce(
-			(longest, value) =>
-				value.length > longest ? value.length : longest,
+			(longest, value) => {
+				return value.length > longest ? value.length : longest;
+			},
 			0
 		);
 
 		const result = Object.entries(this.field.contents).reduce(
-			(typeDefinitions, [key, values]) =>
-				typeDefinitions.concat(
+			(typeDefinitions, [key, values]) => {
+				return typeDefinitions.concat(
 					`${'\t'.repeat(param.tagsCount)}readonly ${key}${
 						values.length === longestValue ? '' : '?'
 					}: ${Array.from(new Set(values))
-						.map((value) => `"${value}"`)
+						.map((value) => {
+							return `"${value}"`;
+						})
 						.join(' | ')}`
-				),
+				);
+			},
 			[] as ReadonlyArray<string>
 		);
 
