@@ -4,6 +4,7 @@ build
 
 # generated
 src/package.ts
+.prettierrc
 
 # misc
 test/output
