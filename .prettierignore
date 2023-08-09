@@ -8,3 +8,5 @@ src/package.ts
 
 # misc
 test/output
+
+pnpm-lock.yaml
