@@ -1,3 +1,7 @@
+# 0.0.3 (3 Aug 2023)
+
+-   (Fix) To be able to ignore a list of `.env*` file specified
+
 # 0.0.2 (3 Aug 2023)
 
 -   (Fix) To be able to use on Windows

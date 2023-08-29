@@ -5,6 +5,7 @@ import IO from './io';
 
 type Directory = Readonly<{
 	inDir: string;
+	ignoreFiles?: ReadonlyArray<string>;
 	envType: EnvType;
 	outDir?: string;
 }>;
@@ -22,15 +23,19 @@ const genEnvTypeDef = (directories: ReadonlyArray<Directory>) => {
 		const parser = Parser.of({
 			io,
 			envDir: prop.inDir,
+			ignoreFiles: prop.ignoreFiles,
 		});
+
 		const generator = Generator.of({
 			io,
 			contents: parser.parseContents(),
 		});
+
 		const writer = Writer.of({
 			io,
 			outDir: prop.outDir ?? prop.inDir,
 		});
+
 		switch (prop.envType) {
 			case 'process.env': {
 				writer.writeProcessEnv(generator.processEnv());
