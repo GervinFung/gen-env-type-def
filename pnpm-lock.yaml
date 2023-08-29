@@ -25,7 +25,7 @@ devDependencies:
     version: 8.48.0
   node-package-helper:
     specifier: github:GervinFung/node-package-helper
-    version: github.com/GervinFung/node-package-helper/7ed46992d8a021a9a7b34f642d89b5b9fdc0a98f
+    version: github.com/GervinFung/node-package-helper/bbc61cdc6e53881917c427158813e477f843f72d
   prettier:
     specifier: ^3.0.2
     version: 3.0.2
@@ -2689,10 +2689,10 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  github.com/GervinFung/node-package-helper/7ed46992d8a021a9a7b34f642d89b5b9fdc0a98f:
-    resolution: {tarball: https://codeload.github.com/GervinFung/node-package-helper/tar.gz/7ed46992d8a021a9a7b34f642d89b5b9fdc0a98f}
+  github.com/GervinFung/node-package-helper/bbc61cdc6e53881917c427158813e477f843f72d:
+    resolution: {tarball: https://codeload.github.com/GervinFung/node-package-helper/tar.gz/bbc61cdc6e53881917c427158813e477f843f72d}
     name: node-package-helper
-    version: 0.2.0
+    version: 0.2.1
     hasBin: true
     requiresBuild: true
     dependencies:
