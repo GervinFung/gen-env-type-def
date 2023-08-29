@@ -5,6 +5,7 @@ import type IO from './io';
 
 type ParserField = Readonly<{
 	io: IO;
+	ignoreFiles: undefined | ReadonlyArray<string>;
 	envDir: string;
 	envPaths: ReadonlyArray<string>;
 }>;
@@ -17,13 +18,18 @@ export default class Parser {
 
 	static readonly of = (field: Omit<ParserField, 'envPaths'>) => {
 		field.io.writeFindingAllEnvFiles(field.envDir);
+
 		const envPaths = fs
 			.readdirSync(field.envDir)
 			.filter((path) => {
 				return path.startsWith('.env');
 			})
 			.filter((path) => {
-				return !path.includes('example');
+				const isExample = path.includes('example');
+
+				const isIgnored = (field.ignoreFiles ?? []).includes(path);
+
+				return !(isExample || isIgnored);
 			});
 
 		if (!envPaths.length) {
@@ -50,25 +56,22 @@ export default class Parser {
 		return content.split('\n').flatMap((line) => {
 			const env = Parser.KEY_VALUE_PATTERN.exec(line);
 			if (env?.length !== 4) {
+				console.log({ content });
 				return [];
 			}
 
 			const key = guard({
 				value: env.at(1),
-				error: () => {
-					return new Error(
-						'There should be a key if there are four elements'
-					);
-				},
+				error: new Error(
+					'There should be a key if there are four elements'
+				),
 			});
 
 			const value = guard({
 				value: env.at(2),
-				error: () => {
-					return new Error(
-						'There should be a value if there are four elements'
-					);
-				},
+				error: new Error(
+					'There should be a value if there are four elements'
+				),
 			});
 
 			const isDoubleQuoted = value.startsWith('"') && value.endsWith('"');
@@ -86,6 +89,8 @@ export default class Parser {
 	};
 
 	readonly parseContents = () => {
+		console.log(this.envContents().flatMap(this.parseContent));
+
 		return this.envContents()
 			.flatMap(this.parseContent)
 			.reduce(

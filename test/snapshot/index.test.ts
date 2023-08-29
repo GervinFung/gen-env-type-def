@@ -14,6 +14,7 @@ describe('should parse all .env* files and generate type definitions correctly',
 
 		const parser = Parser.of({
 			io,
+			ignoreFiles: ['.env.ignore'],
 			envDir: path.join(
 				path.resolve(__dirname, '..'),
 				'env',
