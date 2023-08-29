@@ -1,7 +1,7 @@
 {
 	"name": "gen-env-type-def",
 	"description": "Generate type definitions for process.env or import.meta.env",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"license": "MIT",
 	"main": "./build/cjs/index.js",
 	"module": "./build/mjs/index.js",
@@ -36,16 +36,16 @@
 	"devDependencies": {
 		"@poolofdeath20/eslint-config": "^0.2.1",
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
-		"@types/node": "^20.2.5",
-		"@typescript-eslint/eslint-plugin": "^5.59.8",
-		"@typescript-eslint/parser": "^5.59.8",
-		"eslint": "^8.41.0",
+		"@types/node": "^20.5.7",
+		"@typescript-eslint/eslint-plugin": "^5.62.0",
+		"@typescript-eslint/parser": "^5.62.0",
+		"eslint": "^8.48.0",
 		"node-package-helper": "github:GervinFung/node-package-helper",
-		"prettier": "^3.0.1",
+		"prettier": "^3.0.2",
 		"shx": "^0.3.4",
-		"ts-add-js-extension": "^1.5.3",
-		"typescript": "^5.0.4",
-		"vitest": "^0.31.2"
+		"ts-add-js-extension": "^1.5.8",
+		"typescript": "^5.2.2",
+		"vitest": "^0.31.4"
 	},
 	"keywords": [
 		"process",
