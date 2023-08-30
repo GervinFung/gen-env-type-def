@@ -56,7 +56,6 @@ export default class Parser {
 		return content.split('\n').flatMap((line) => {
 			const env = Parser.KEY_VALUE_PATTERN.exec(line);
 			if (env?.length !== 4) {
-				console.log({ content });
 				return [];
 			}
 
@@ -89,8 +88,6 @@ export default class Parser {
 	};
 
 	readonly parseContents = () => {
-		console.log(this.envContents().flatMap(this.parseContent));
-
 		return this.envContents()
 			.flatMap(this.parseContent)
 			.reduce(
