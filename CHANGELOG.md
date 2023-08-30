@@ -1,4 +1,8 @@
-# 0.0.3 (3 Aug 2023)
+# 0.0.4 (30 Aug 2023)
+
+-   (Fix) Remove unnecessary log
+
+# 0.0.3 (29 Aug 2023)
 
 -   (Fix) To be able to ignore a list of `.env*` file specified
 
