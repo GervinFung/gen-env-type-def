@@ -43,33 +43,33 @@ describe('should parse all .env* files and generate type definitions correctly',
 		const processEnv = generator.processEnv();
 		const importMetaEnv = generator.importMetaEnv();
 		expect(processEnv).toMatchInlineSnapshot(`
-          "export {}
-          declare global {
-          	namespace NodeJS {
-          		interface ProcessEnv {
-          			readonly NODE_ENV: \\"development\\" | \\"production\\" | \\"staging\\" | \\"testing\\"
-          			readonly REQUIRED_IN_DEV_ONLY?: \\"true\\"
-          			readonly ORIGIN: \\"http://localhost:3000\\" | \\"https://arkham.io\\" | \\"https://staging.arkham.io\\" | \\"http://localhost:8000\\"
-          			readonly TIME_OUT: \\"0\\" | \\"2_000_000\\" | \\"1_000_000\\"
-          			readonly SAME: \\"hi\\"
-          			readonly REQUIRED_IN_TEST_ONLY?: \\"false\\"
-          		}
-          	}
-          }"
-        `);
+			"export {}
+			declare global {
+				namespace NodeJS {
+					interface ProcessEnv {
+						readonly NODE_ENV: "development" | "production" | "staging" | "testing"
+						readonly REQUIRED_IN_DEV_ONLY?: "true"
+						readonly ORIGIN: "http://localhost:3000" | "https://arkham.io" | "https://staging.arkham.io" | "http://localhost:8000"
+						readonly TIME_OUT: "0" | "2_000_000" | "1_000_000"
+						readonly SAME: "hi"
+						readonly REQUIRED_IN_TEST_ONLY?: "false"
+					}
+				}
+			}"
+		`);
 		expect(importMetaEnv).toMatchInlineSnapshot(`
-          "interface ImportMetaEnv {
-          	readonly NODE_ENV: \\"development\\" | \\"production\\" | \\"staging\\" | \\"testing\\"
-          	readonly REQUIRED_IN_DEV_ONLY?: \\"true\\"
-          	readonly ORIGIN: \\"http://localhost:3000\\" | \\"https://arkham.io\\" | \\"https://staging.arkham.io\\" | \\"http://localhost:8000\\"
-          	readonly TIME_OUT: \\"0\\" | \\"2_000_000\\" | \\"1_000_000\\"
-          	readonly SAME: \\"hi\\"
-          	readonly REQUIRED_IN_TEST_ONLY?: \\"false\\"
-          }
-          interface ImportMeta {
-          	readonly env: ImportMetaEnv
-          }"
-        `);
+			"interface ImportMetaEnv {
+				readonly NODE_ENV: "development" | "production" | "staging" | "testing"
+				readonly REQUIRED_IN_DEV_ONLY?: "true"
+				readonly ORIGIN: "http://localhost:3000" | "https://arkham.io" | "https://staging.arkham.io" | "http://localhost:8000"
+				readonly TIME_OUT: "0" | "2_000_000" | "1_000_000"
+				readonly SAME: "hi"
+				readonly REQUIRED_IN_TEST_ONLY?: "false"
+			}
+			interface ImportMeta {
+				readonly env: ImportMetaEnv
+			}"
+		`);
 
 		const writer = Writer.of({
 			io,
