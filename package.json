@@ -37,16 +37,16 @@
 	"devDependencies": {
 		"@poolofdeath20/eslint-config": "^0.3.2",
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
-		"@types/node": "^20.10.0",
-		"@typescript-eslint/eslint-plugin": "^6.13.1",
-		"@typescript-eslint/parser": "^6.13.1",
-		"eslint": "^8.54.0",
+		"@types/node": "^20.10.5",
+		"@typescript-eslint/eslint-plugin": "^6.15.0",
+		"@typescript-eslint/parser": "^6.15.0",
+		"eslint": "^8.56.0",
 		"node-package-helper": "github:GervinFung/node-package-helper",
-		"prettier": "^3.1.0",
+		"prettier": "^3.1.1",
 		"shx": "^0.3.4",
 		"ts-add-js-extension": "^1.6.0",
-		"typescript": "^5.3.2",
-		"vitest": "^0.34.6"
+		"typescript": "^5.3.3",
+		"vitest": "^1.1.0"
 	},
 	"keywords": [
 		"process",
