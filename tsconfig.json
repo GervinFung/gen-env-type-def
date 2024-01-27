@@ -15,8 +15,8 @@
 		"verbatimModuleSyntax": true,
 		"noEmit": true,
 		"module": "esnext",
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
 	},
 	"include": ["**/*.ts"],
-	"exclude": ["node_modules", "package.json"]
+	"exclude": ["node_modules", "package.json"],
 }
