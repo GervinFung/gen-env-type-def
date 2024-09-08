@@ -31,14 +31,14 @@ jobs:
             - name: Install Depedencies
               run: pnpm i
 
-            - name: Run Linter
+            - name: Lint Code
               run: pnpm lint
 
-            - name: Run Format Check
+            - name: Format Check
               run: pnpm format-check
 
             - name: Run Tests
               run: pnpm test
 
-            - name: Run Build
+            - name: Produce Build
               run: pnpm build

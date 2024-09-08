@@ -1,5 +1,7 @@
 import path from 'path';
+
 import { describe, expect, it } from 'vitest';
+
 import { genEnvTypeDef } from '../../src';
 
 describe('should not be able to proceed further due to invalid input', () => {

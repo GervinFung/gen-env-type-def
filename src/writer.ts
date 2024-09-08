@@ -1,7 +1,8 @@
+import type { EnvType } from './generator';
+import type IO from './io';
+
 import fs from 'fs';
 import path from 'path';
-import type IO from './io';
-import type { EnvType } from './generator';
 
 type WriterField = Readonly<{
 	io: IO;
