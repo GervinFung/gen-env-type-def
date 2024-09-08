@@ -1,7 +1,9 @@
+import type IO from './io';
+
 import fs from 'fs';
 import path from 'path';
+
 import { guard } from './type';
-import type IO from './io';
 
 type ParserField = Readonly<{
 	io: IO;

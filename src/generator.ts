@@ -1,4 +1,5 @@
 import type IO from './io';
+
 import Parser from './parser';
 
 type EnvType = 'process.env' | 'import.meta.env';

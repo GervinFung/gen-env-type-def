@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+
 import { afterAll, describe, expect, it } from 'vitest';
-import Parser from '../../src/parser';
+
 import Generator from '../../src/generator';
-import Writer from '../../src/writer';
 import IO from '../../src/io';
+import Parser from '../../src/parser';
+import Writer from '../../src/writer';
 
 describe('should parse all .env* files and generate type definitions correctly', () => {
 	const outDir = `./typing`;
@@ -76,12 +78,12 @@ describe('should parse all .env* files and generate type definitions correctly',
 			outDir,
 		});
 
-		expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
+		void expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
 			'snapshot/dts-output/process-env'
 		);
-		expect(writer.writeImportMetaEnv(importMetaEnv)).toMatchFileSnapshot(
-			'snapshot/dts-output/import-meta-env'
-		);
+		void expect(
+			writer.writeImportMetaEnv(importMetaEnv)
+		).toMatchFileSnapshot('snapshot/dts-output/import-meta-env');
 	});
 
 	afterAll(() => {

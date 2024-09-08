@@ -1,7 +1,9 @@
-import Parser from './parser';
-import Generator, { type EnvType } from './generator';
-import Writer from './writer';
+import type {EnvType} from './generator';
+
+import Generator from './generator';
 import IO from './io';
+import Parser from './parser';
+import Writer from './writer';
 
 type Directory = Readonly<{
 	inDir: string;

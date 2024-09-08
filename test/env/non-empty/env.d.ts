@@ -1,4 +1,4 @@
-interface ImportMetaEnv {
+type ImportMetaEnv = {
 	readonly NODE_ENV: 'development' | 'production' | 'staging' | 'testing';
 	readonly REQUIRED_IN_DEV_ONLY?: 'true';
 	readonly ORIGIN:
@@ -10,6 +10,6 @@ interface ImportMetaEnv {
 	readonly SAME: 'hi';
 	readonly REQUIRED_IN_TEST_ONLY?: 'false';
 }
-interface ImportMeta {
+type ImportMeta = {
 	readonly env: ImportMetaEnv;
 }
