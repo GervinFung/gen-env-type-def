@@ -1,4 +1,4 @@
-import type {EnvType} from './generator';
+import type { EnvType } from './generator';
 
 import Generator from './generator';
 import IO from './io';
