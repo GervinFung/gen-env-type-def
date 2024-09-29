@@ -1,16 +1,16 @@
-const guard = <T, Err extends Error>({
-	value,
-	error,
-}: Readonly<{
-	value: T;
-	error: Err;
-}>) => {
-	const t = value;
+const guard = <T>(
+	props: Readonly<{
+		value: T;
+		error: Error;
+	}>
+) => {
+	const t = props.value;
+
 	if (t !== undefined && t != null) {
 		return t;
 	}
-	// eslint-disable-next-line @typescript-eslint/only-throw-error
-	throw error;
+
+	throw props.error;
 };
 
 export { guard };
