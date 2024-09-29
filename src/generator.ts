@@ -62,7 +62,7 @@ export default class Generator {
 			'declare global {',
 			'\tnamespace NodeJS {',
 			'\t\tinterface ProcessEnv {',
-			`${typeDefinitions.join('\n')}`,
+			typeDefinitions.join('\n'),
 			'\t\t}',
 			'\t}',
 			'}',
@@ -77,7 +77,7 @@ export default class Generator {
 
 		return [
 			'interface ImportMetaEnv {',
-			`${typeDefinitions.join('\n')}`,
+			typeDefinitions.join('\n'),
 			'}',
 			'interface ImportMeta {',
 			'\treadonly env: ImportMetaEnv',
