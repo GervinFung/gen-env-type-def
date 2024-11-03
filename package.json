@@ -37,16 +37,16 @@
 		"@poolofdeath20/eslint-config": "^0.4.1",
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
 		"@poolofdeath20/tsconfig": "^0.1.1",
-		"@types/node": "^22.7.4",
-		"@typescript-eslint/eslint-plugin": "^8.7.0",
-		"@typescript-eslint/parser": "^8.7.0",
-		"eslint": "^9.10.0",
+		"@types/node": "^22.8.7",
+		"@typescript-eslint/eslint-plugin": "^8.12.2",
+		"@typescript-eslint/parser": "^8.12.2",
+		"eslint": "^9.14.0",
 		"node-package-helper": "github:GervinFung/node-package-helper",
 		"prettier": "^3.3.3",
 		"shx": "^0.3.4",
 		"ts-add-js-extension": "^1.6.4",
-		"typescript": "^5.6.2",
-		"vitest": "^2.1.1"
+		"typescript": "^5.6.3",
+		"vitest": "^2.1.4"
 	},
 	"keywords": [
 		"process",
