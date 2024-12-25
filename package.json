@@ -34,19 +34,19 @@
 		"url": "https://github.com/GervinFung/gen-env-type-def"
 	},
 	"devDependencies": {
-		"@poolofdeath20/eslint-config": "^0.4.1",
+		"@poolofdeath20/eslint-config": "^0.4.2",
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
 		"@poolofdeath20/tsconfig": "^0.1.1",
-		"@types/node": "^22.8.7",
-		"@typescript-eslint/eslint-plugin": "^8.12.2",
-		"@typescript-eslint/parser": "^8.12.2",
-		"eslint": "^9.14.0",
+		"@types/node": "^22.10.2",
+		"@typescript-eslint/eslint-plugin": "^8.18.2",
+		"@typescript-eslint/parser": "^8.18.2",
+		"eslint": "^9.17.0",
 		"node-package-helper": "github:GervinFung/node-package-helper",
-		"prettier": "^3.3.3",
+		"prettier": "^3.4.2",
 		"shx": "^0.3.4",
-		"ts-add-js-extension": "^1.6.4",
-		"typescript": "^5.6.3",
-		"vitest": "^2.1.4"
+		"ts-add-js-extension": "^1.6.5",
+		"typescript": "^5.7.2",
+		"vitest": "^2.1.8"
 	},
 	"keywords": [
 		"process",
