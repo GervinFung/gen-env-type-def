@@ -43,10 +43,10 @@
 		"eslint": "^9.23.0",
 		"node-package-helper": "github:GervinFung/node-package-helper",
 		"prettier": "^3.5.3",
-		"shx": "^0.3.4",
+		"shx": "^0.4.0",
 		"ts-add-js-extension": "^1.6.5",
 		"typescript": "^5.8.2",
-		"vitest": "^2.1.9"
+		"vitest": "^3.0.9"
 	},
 	"keywords": [
 		"process",
