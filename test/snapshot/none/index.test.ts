@@ -4,9 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import IO from '../../../src/io';
 import Parser from '../../../src/parser';
-
-import { createTypedValue } from '../util';
 import { generateCommonAssertion } from '../test';
+import { createTypedValue } from '../util';
 
 describe('should parse all .env* files and generate type definitions without unionising with string correctly', () => {
 	const commonAssertion = generateCommonAssertion('./none');

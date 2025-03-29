@@ -1,10 +1,11 @@
+import type IO from '../../src/io';
+import type Parser from '../../src/parser';
+
 import fs from 'fs';
 
 import { afterAll, expect } from 'vitest';
 
 import Generator from '../../src/generator';
-import type IO from '../../src/io';
-import type Parser from '../../src/parser';
 import Writer from '../../src/writer';
 
 const generateCommonAssertion = (outDir: string) => {

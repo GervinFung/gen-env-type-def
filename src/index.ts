@@ -1,5 +1,5 @@
-import type { ParserField } from './parser';
 import type { EnvType } from './generator';
+import type { ParserField } from './parser';
 
 import Generator from './generator';
 import IO from './io';
