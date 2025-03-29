@@ -10,11 +10,23 @@ type ParserField = Readonly<{
 	ignoreFiles: undefined | ReadonlyArray<string>;
 	envDir: string;
 	envPaths: ReadonlyArray<string>;
+	allowStringType: Readonly<
+		| {
+				for: 'all' | 'none';
+		  }
+		| {
+				for: 'some';
+				case: 'exclude' | 'include';
+				variables: ReadonlyArray<string>;
+		  }
+	>;
 }>;
 
 export default class Parser {
 	private static readonly KEY_VALUE_PATTERN =
 		/^\s*([\w.-]+)\s*=\s*("[^"]*"|'[^']*'|[^#]*)?(\s*|\s*#.*)?$/;
+
+	private static readonly UNIONISED_STRING = '(string & {})';
 
 	private constructor(private readonly field: ParserField) {}
 
@@ -46,6 +58,10 @@ export default class Parser {
 		return new this({ ...field, envPaths });
 	};
 
+	static readonly getUnionisedString = () => {
+		return this.UNIONISED_STRING;
+	};
+
 	private readonly envContents = () => {
 		return this.field.envPaths.map((envPath) => {
 			return fs.readFileSync(path.join(this.field.envDir, envPath), {
@@ -61,19 +77,12 @@ export default class Parser {
 				return [];
 			}
 
-			const key = guard({
-				value: env.at(1),
-				error: new Error(
-					'There should be a key if there are four elements'
-				),
-			});
+			const key = guard(
+				env.at(1),
+				new Error('There should be a key if there are four elements')
+			);
 
-			const value = guard({
-				value: env.at(2),
-				error: new Error(
-					'There should be a value if there are four elements'
-				),
-			});
+			const value = env.at(2) ?? '';
 
 			const isDoubleQuoted = value.startsWith('"') && value.endsWith('"');
 			const isSingleQuoted = value.startsWith("'") && value.endsWith("'");
@@ -89,19 +98,82 @@ export default class Parser {
 		});
 	};
 
+	private readonly parseValues = (
+		props: Readonly<{
+			key: string;
+			value: ReadonlyArray<
+				Readonly<{
+					type: 'original' | 'unioned';
+					value: string;
+				}>
+			>;
+		}>
+	) => {
+		const { allowStringType } = this.field;
+
+		switch (allowStringType.for) {
+			case 'none': {
+				return props.value;
+			}
+			case 'all': {
+				return props.value.concat({
+					type: 'unioned',
+					value: Parser.UNIONISED_STRING,
+				});
+			}
+			case 'some': {
+				const includesKey = allowStringType.variables.includes(
+					props.key
+				);
+
+				const whenExclude =
+					allowStringType.case === 'exclude' && includesKey;
+				const whenInclude =
+					allowStringType.case === 'include' && !includesKey;
+
+				if (whenExclude || whenInclude) {
+					return props.value;
+				}
+
+				return props.value.concat({
+					type: 'unioned',
+					value: Parser.UNIONISED_STRING,
+				});
+			}
+		}
+	};
+
 	readonly parseContents = () => {
-		return this.envContents()
+		type Props = Parameters<typeof this.parseValues>[0];
+
+		type Env = Readonly<Record<Props['key'], Props['value']>>;
+
+		const envs = this.envContents()
 			.flatMap(this.parseContent)
-			.reduce(
-				(result, env) => {
-					return {
-						...result,
-						[env.key]: Array.from(result[env.key] ?? []).concat(
-							env.value
-						),
-					};
-				},
-				{} as Readonly<Record<string, ReadonlyArray<string>>>
-			);
+			.reduce((result, env) => {
+				return {
+					...result,
+					[env.key]: (result[env.key] ?? []).concat({
+						type: 'original',
+						value: env.value,
+					}),
+				};
+			}, {} as Env);
+
+		return Object.entries(envs)
+			.map(([key, value]) => {
+				return {
+					key,
+					value,
+				};
+			})
+			.reduce((result, env) => {
+				return {
+					...result,
+					[env.key]: this.parseValues(env),
+				};
+			}, {} as Env);
 	};
 }
+
+export type { ParserField };

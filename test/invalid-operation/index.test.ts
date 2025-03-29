@@ -17,11 +17,7 @@ describe('should not be able to proceed further due to invalid input', () => {
 				return genEnvTypeDef([
 					{
 						envType,
-						inDir: path.join(
-							path.resolve(__dirname, '..'),
-							'env',
-							'empty'
-						),
+						inDir: path.join(process.cwd(), 'env', 'empty'),
 					},
 				]);
 			}).toThrowError();

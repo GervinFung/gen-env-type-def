@@ -1,3 +1,8 @@
+# 0.0.5 (29 Mar 2025)
+
+- (Fix) Fix parsing of empty environment variable
+- (Fix) Allow type of `string & {}`
+
 # 0.0.4 (30 Aug 2023)
 
 - (Fix) Remove unnecessary log

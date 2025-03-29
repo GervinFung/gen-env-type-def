@@ -1,4 +1,5 @@
 import type { EnvType } from './generator';
+import type { ParserField } from './parser';
 
 import Generator from './generator';
 import IO from './io';
@@ -10,22 +11,26 @@ type Directory = Readonly<{
 	ignoreFiles?: ReadonlyArray<string>;
 	envType: EnvType;
 	outDir?: string;
+	allowStringType?: ParserField['allowStringType'];
 }>;
 
 const genEnvTypeDef = (directories: ReadonlyArray<Directory>) => {
-	const io = IO.of();
-
 	if (!directories.length) {
 		throw new Error(
 			'Directories cannot be empty; otherwise, there will be nothing to operate on'
 		);
 	}
 
+	const io = IO.of();
+
 	directories.forEach((prop) => {
 		const parser = Parser.of({
 			io,
 			envDir: prop.inDir,
 			ignoreFiles: prop.ignoreFiles,
+			allowStringType: prop.allowStringType ?? {
+				for: 'none',
+			},
 		});
 
 		const generator = Generator.of({

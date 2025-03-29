@@ -24,24 +24,46 @@ export default class Generator {
 			tagsCount: number;
 		}>
 	) => {
-		const longestValue = Object.values(this.field.contents).reduce(
-			(longest, value) => {
-				return value.length > longest ? value.length : longest;
-			},
-			0
-		);
+		const longestValue = Object.values(this.field.contents)
+			.map((values) => {
+				return values.filter((value) => {
+					return value.type === 'original';
+				}).length;
+			})
+			.reduce((longest, value) => {
+				return Math.max(longest, value);
+			}, 0);
 
 		const result = Object.entries(this.field.contents).reduce(
 			(typeDefinitions, [key, values]) => {
-				return typeDefinitions.concat(
-					`${'\t'.repeat(param.tagsCount)}readonly ${key}${
-						values.length === longestValue ? '' : '?'
-					}: ${Array.from(new Set(values))
-						.map((value) => {
-							return `"${value}"`;
+				const originalValues = values.filter((value) => {
+					return value.type === 'original';
+				});
+
+				const uniqueValues = Array.from(
+					new Set(
+						values.map((value) => {
+							switch (value.type) {
+								case 'unioned': {
+									return value.value;
+								}
+								case 'original': {
+									return `"${value.value}"`;
+								}
+							}
 						})
-						.join(' | ')}`
+					)
 				);
+
+				const typeDefinition = [
+					'\t'.repeat(param.tagsCount),
+					`readonly ${key}${
+						originalValues.length === longestValue ? '' : '?'
+					}: `,
+					uniqueValues.join(' | '),
+				].join('');
+
+				return typeDefinitions.concat(typeDefinition);
 			},
 			[] as ReadonlyArray<string>
 		);
