@@ -1,25 +1,15 @@
 # gen-env-type-def
 
-Initially, I found myself type guarding environment variables either as `process.env.SOMETHING` or `import.meta.env.SOMETHING`, treating them as generic strings. However, I realized that I could go beyond just basic type safety and ensure the correct import of environment variables in production. Instead of writing individual type guards, I decided to create a function that generates specific types for each environment variable, using discriminated unions for enhanced type safety. This approach not only provides compile-time type checking but also guarantees runtime safety.
+A tool that generates types based on the value of each environment variable, using union type for enhanced type safety. This approach not only provides compile-time type checking but also guarantees runtime safety (unless there are dynamically generated environment variables that are not specified in `.env*` files)
 
-But that's not all. I encountered a different way of importing environment variables while using Vite. Instead of using `process.env.SOMETHING`, Vite uses `import.meta.env.SOMETHING`, requiring a different type definition.
-
-During my search for tools that handle this task, I came across ["gen-env-types"](https://github.com/benawad/gen-env-types) by Ben Awad, which does a great job. However, I found it lacking in generating discriminated union types based on different environment variables across multiple files and limited to only process.env. I desired a tool that could fulfill both requirements.
-
-That's why I developed this tool – to provide the following capabilities:
-
-1. Generate discriminated union types based on different environment variables across multiple files.
+1. Generate union types based on different environment variables across multiple files.
 2. Support for both process.env and import.meta.env.
-
-With this tool, you can ensure type safety, handle various environment variables, and streamline your development process.
 
 # Feature
 
-The gen-env-type-def tool is designed to generate type definitions based on different `.env*` files. To use it, simply specify the directory where the type definitions should be generated. Additionally, you can choose whether to generate types for `process.env` or `import.meta.env`.
+Specify the directory where the type definitions should be generated. Additionally, you can choose whether to generate types for `process.env` or `import.meta.env`.
 
-With `gen-env-type-def`, you have the flexibility to provide different input configurations for each directory, allowing you to generate specific type definitions for various environments or configurations within your project.
-
-By leveraging this tool, you can effortlessly generate precise and thorough type definitions for your environment variables. This enhances type safety and enables smooth integration with your development workflow, ensuring a seamless and reliable environment for your project.
+With this tool, you have the flexibility to provide different input configurations for each directory, allowing you to generate specific type definitions for various environments or configurations within your project.
 
 # Usage
 
@@ -112,7 +102,54 @@ declare global {
 }
 ```
 
-At this stage, I trust that I have effectively conveyed the benefits and capabilities of using `gen-env-type-def` to generate type definitions for environment variables. This tool empowers developers to ensure type safety and seamless integration with their development workflow by automatically generating accurate and comprehensive type definitions based on environment variable configurations
+Additionally, you can also generate generic string type while keeping the type specified in environment files by doing so
+
+.env
+
+```
+// other environment variables
+RANDOM_ENV=yes
+```
+
+```ts
+import { genEnvTypeDef } from 'gen-env-type-def';
+
+genEnvTypeDef([
+	{
+		inDir: 'some-directory',
+		envType: 'import.meta.env',
+		allowStringType: {
+			for: 'some', // all/some
+			case: 'include', // include/exclude listed variables
+			variables: ['RANDOM_ENV'],
+		},
+	},
+]);
+```
+
+Will generate the following output
+
+```ts
+interface ImportMetaEnv {
+	// other environment variables
+	RANDOM_ENV: 'yes' | (string & {});
+}
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}
+```
+
+This is useful in scenarios where you have environment files like `.env.development`, `.env.test`, and `.env.production`, but you do not wish to commit `.env.production`. However, you have code that depends on this environment file, such as:
+
+```ts
+if (process.env.MODE === 'prodution') {
+	// do something
+}
+```
+
+In a CI/CD pipeline, this setup may fail depending on your ESLint or TypeScript configuration, as the only available types for MODE are `development` and `test`.
+
+At this stage, I trust that I have effectively conveyed the benefits and capabilities of using `gen-env-type-def` to generate type definitions for environment variables
 
 # Contributions
 
