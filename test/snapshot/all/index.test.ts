@@ -10,7 +10,7 @@ import { createTypedValue } from '../util';
 describe('should parse all .env* files and generate type definitions with all variable unionised with string correctly', () => {
 	const commonAssertion = generateCommonAssertion('./all');
 
-	it('should parse, ignore comments, and generate type definitions', () => {
+	it('should parse, ignore comments, and generate type definitions', async () => {
 		const { includeUnion } = createTypedValue(Parser);
 
 		const io = IO.of();
@@ -53,7 +53,7 @@ describe('should parse all .env* files and generate type definitions with all va
 			]),
 		});
 
-		commonAssertion.generateTypeDefinition({
+		await commonAssertion.generateTypeDefinition({
 			io,
 			contents,
 		});

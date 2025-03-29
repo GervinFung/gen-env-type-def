@@ -15,7 +15,7 @@ const generateCommonAssertion = (outDir: string) => {
 				fs.rmSync(outDir, { recursive: true, force: true });
 			});
 		},
-		generateTypeDefinition: (
+		generateTypeDefinition: async (
 			props: Readonly<{
 				io: IO;
 				contents: ReturnType<Parser['parseContents']>;
@@ -30,10 +30,10 @@ const generateCommonAssertion = (outDir: string) => {
 				outDir,
 			});
 
-			void expect(writer.writeProcessEnv(processEnv)).toMatchFileSnapshot(
-				'output/process-env'
-			);
-			void expect(
+			await expect(
+				writer.writeProcessEnv(processEnv)
+			).toMatchFileSnapshot('output/process-env');
+			await expect(
 				writer.writeImportMetaEnv(importMetaEnv)
 			).toMatchFileSnapshot('output/import-meta-env');
 		},
