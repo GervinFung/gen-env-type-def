@@ -1,16 +1,9 @@
-const guard = <T>(
-	props: Readonly<{
-		value: T;
-		error: Error;
-	}>
-) => {
-	const t = props.value;
-
+const guard = <T>(t: T, error: Error) => {
 	if (t !== undefined && t != null) {
 		return t;
 	}
 
-	throw props.error;
+	throw error;
 };
 
 export { guard };
